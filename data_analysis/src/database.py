@@ -24,7 +24,7 @@ class DatabaseManager:
         self.async_session = None
 
     async def initialize(self):
-        """Inicializar el engine y sessionmaker"""
+        """Initialize the engine and sessionmaker"""
         self.engine = create_async_engine(
             self.connection_string,
             echo=True,
@@ -34,7 +34,7 @@ class DatabaseManager:
         self.async_session = async_sessionmaker(self.engine)
 
     async def get_all_sales(self) -> pd.DataFrame:
-        """Obtener todos los registros de la tabla sales"""
+        """Get all records from the sales table"""
         if not self.engine:
             await self.initialize()
 
@@ -57,7 +57,7 @@ class DatabaseManager:
         return pd.DataFrame()
 
     async def close(self):
-        """Cerrar conexiones"""
+        """Close connections"""
         if self.engine:
             await self.engine.dispose()
 
