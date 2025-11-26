@@ -3,6 +3,7 @@ postgres_data/
 __pycache__/
 .venv/
 .ipynb_checkpoints/
+local_notes.md
 
 # misc
 .DS_Store
