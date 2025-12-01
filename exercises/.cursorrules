@@ -1,0 +1,250 @@
+# Guide for Creating Exercises and Tests
+
+This guide describes how to create exercise files and their corresponding tests in this project, following the established patterns.
+
+## 📋 General Structure
+
+### Exercise Files
+- **Location**: `exercises/exercises_N.py` where `N` is the exercise number
+- **Naming pattern**: `exercises_N.py` (e.g., `exercises_1.py`, `exercises_2.py`)
+
+### Test Files
+- **Location**: `_tests/test_exercises_N.py` where `N` corresponds to the exercise number
+- **Naming pattern**: `test_exercises_N.py` (e.g., `test_exercises_1.py`, `test_exercises_2.py`)
+
+## 🎯 Exercise Patterns
+
+### Pattern 1: Generator Function with `yield` (exercises_1.py, exercises_2.py)
+
+This pattern is used when exercises require students to complete functions or return specific values.
+
+#### Exercise file structure:
+
+```python
+from typing import Any
+
+def generator_function_name() -> Any:
+    """
+    Explanatory documentation for the exercise set.
+    Describes the context, objectives, and how to solve them.
+    """
+    
+    # Exercise 1: Clear description of what it should do
+    # Include specific constraints or requirements
+    def exercise_function_name(param1: type1, param2: type2) -> return_type:
+        return default_value  # Placeholder value
+    
+    yield exercise_function_name
+    
+    # Exercise 2: Next exercise...
+    def another_function(param: type) -> return_type:
+        return default_value
+    
+    yield another_function
+```
+
+#### Corresponding test file structure:
+
+```python
+from _utilities import get_annotations_and_rvalues
+from exercises.exercises_N import generator_function_name
+
+# Create the generator
+ordered_answers = generator_function_name()
+
+def _get_next_answer():
+    """Helper to get the next answer from the generator"""
+    try:
+        if ordered_answers is not None:
+            return next(ordered_answers)
+    except StopIteration:
+        print("No more answers")
+
+# Get function from exercise 1
+function_exercise_1 = _get_next_answer()
+source_exercise_1 = get_annotations_and_rvalues(function_exercise_1)
+
+# Functionality test
+def test_exercise_1_functionality():
+    if function_exercise_1 is not None:
+        assert function_exercise_1(value1) == expected_result, "Descriptive message"
+        assert function_exercise_1(value2) == expected_result2, "Descriptive message"
+    else:
+        assert False, "Exercise 1 function not found"
+
+# Requirements test (verifies that it uses certain structures/keywords)
+def test_exercise_1_requirements():
+    if (source := source_exercise_1["_source"]) is not None:
+        assert "keyword" in source, "Must use 'keyword' in the function"
+        assert "other_word" not in source, "Must not use 'other_word'"
+    else:
+        assert False, "Exercise 1 function not found"
+
+# Repeat for each exercise...
+```
+
+### Pattern 2: Direct Functions (exercises_3.py)
+
+This pattern is used when exercises are independent functions that are imported directly.
+
+#### Exercise file structure:
+
+```python
+"""
+Module documentation explaining the topic and subtopics.
+"""
+
+# Necessary imports
+from typing import Any
+
+# Example code or context (optional)
+example = "reference code"
+
+# Exercise 1: Function to complete
+def exercise_function_name_1(param1: type1) -> return_type:
+    """
+    Docstring explaining what the function should do.
+    """
+    # Placeholder or incomplete code
+    pass
+
+# Exercise 2: Another function
+def exercise_function_name_2(param: type) -> return_type:
+    pass
+```
+
+#### Corresponding test file structure:
+
+```python
+from exercises import exercises_N as mod
+from exercises.exercises_N import specific_function
+
+# Direct test of imported function
+def test_function_name():
+    assert specific_function(value) == expected_result, "Message"
+
+# Test of module function
+def test_another_function():
+    try:
+        another_function = mod.another_function  # type: ignore # noqa
+    except ImportError as e:
+        assert False, f"Could not import function: {e}"
+    assert another_function(value) == expected_result
+```
+
+## 🔧 Available Utilities
+
+### `get_annotations_and_rvalues(fn)`
+
+Function from `_utilities` that extracts information from a function's source code:
+
+- **Returns**: A dictionary with:
+  - Keys: variable names found in the function
+  - Values: `[annotated_type, assigned_value]`
+  - `"_source"`: complete source code of the function
+
+**Typical usage**:
+```python
+source_info = get_annotations_and_rvalues(exercise_function)
+source_code = source_info["_source"]  # To verify keywords
+type_annotation = source_info["variable"][0]  # Annotated type
+value = source_info["variable"][1]  # Assigned value
+```
+
+## 📝 Creation Process from Topic and Subtopics
+
+### Step 1: Define the Main Topic
+
+Example: "Conditional Structures", "Collections", "Functions", etc.
+
+### Step 2: Identify Subtopics
+
+Each subtopic becomes one or more exercises. Example:
+- Topic: "Conditional Structures"
+  - Subtopic 1: `if` without `else`
+  - Subtopic 2: `if` with `else`
+  - Subtopic 3: `if`, `elif`, `else`
+  - Subtopic 4: `match`/`case`
+
+### Step 3: Create the Exercise File
+
+1. **Choose the pattern** (generator or direct functions)
+2. **Write documentation** explaining the topic and context
+3. **Create each exercise**:
+   - Function with descriptive name (lowercase letters: `a`, `b`, `c` or descriptive names)
+   - Complete type hints
+   - Placeholder return value
+   - Clear requirement comment
+   - If using generator pattern: `yield` the function
+
+### Step 4: Create the Test File
+
+1. **Import** the generator function or module according to the pattern
+2. **For each exercise**, create:
+   - **Functionality test**: Verifies that the function returns correct values with different inputs
+   - **Requirements test**: Verifies that the source code contains/does not contain certain keywords or structures
+3. **Use `_get_next_answer()`** if it's a generator pattern to get functions in order
+4. **Use `get_annotations_and_rvalues()`** to verify source code when necessary
+
+## ✅ Creation Checklist
+
+### Exercise File
+- [ ] File name follows the pattern `exercises_N.py`
+- [ ] Generator function or direct functions well defined
+- [ ] Clear documentation of topic and objectives
+- [ ] Each exercise has:
+  - [ ] Clear requirement comment
+  - [ ] Complete type hints
+  - [ ] Appropriate placeholder return value
+  - [ ] Descriptive name or following convention (a, b, c...)
+- [ ] If using generator: each function has its `yield`
+
+### Test File
+- [ ] File name follows the pattern `test_exercises_N.py`
+- [ ] Correctly imports from `exercises.exercises_N`
+- [ ] For each exercise has:
+  - [ ] Functionality test with multiple cases
+  - [ ] Requirements test (if applicable) verifying source code
+  - [ ] Descriptive error messages in Spanish
+- [ ] Uses `_get_next_answer()` if it's a generator pattern
+- [ ] Handles cases where the function doesn't exist (`if function is not None`)
+
+## 🎨 Best Practices
+
+### Function Names
+- **Simple exercises**: Use letters `a`, `b`, `c`, `d`...
+- **Complex exercises**: Use descriptive names like `get_first_element`, `make_dict`
+
+### Comments and Requirements
+- Write in Spanish
+- Be specific about what the function should do
+- Mention constraints (e.g., "Must use `if` without `else`")
+- Include examples when useful
+
+### Tests
+- **Test cases**: Include normal cases, edge cases, and error cases
+- **Messages**: Always in Spanish, descriptive of the problem
+- **Code verification**: Use `get_annotations_and_rvalues()` to verify:
+  - Presence/absence of keywords (`if`, `else`, `for`, `while`, etc.)
+  - Use of specific structures (`match`, `case`, `continue`, etc.)
+  - Calls to previous functions (verify `(` and `)` in the code)
+
+### Exercise Order
+- From simple to complex
+- Each exercise can depend on previous concepts
+- Group related exercises by subtopic
+
+## 📚 Reference Examples
+
+- **Simple Generator Pattern**: `exercises_1.py` / `test_exercises_1.py`
+- **Generator Pattern with Functions**: `exercises_2.py` / `test_exercises_2.py`
+- **Direct Functions Pattern**: `exercises_3.py` / `test_exercises_3.py`
+
+## 🔍 Verification
+
+Before considering exercises and tests complete:
+
+1. Run the tests: `pytest _tests/test_exercises_N.py`
+2. Verify that all tests pass with correct solutions
+3. Verify that tests fail appropriately with incorrect solutions
+4. Review that error messages are clear and useful
