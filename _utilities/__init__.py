@@ -1,4 +1,3 @@
-
 import inspect
 import re
 
@@ -11,6 +10,11 @@ if __name__ == "__main__":
 
 def get_annotations_and_rvalues(fn):
     source = inspect.getsource(fn)
+
+    # Discard docstrings from source
+    source = re.sub(r'""".*?"""', "", source, flags=re.DOTALL)
+    source = re.sub(r"'''.*?'''", "", source, flags=re.DOTALL)
+
     var_tps: dict[str, Any] = {
         k: [t, v]
         for k, t, v in re.findall(r"(\w+) ?: ?([\w\"\[\], ']+[^ ]) ?= ?(.+)\n", source)
