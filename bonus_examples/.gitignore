@@ -1,0 +1,8 @@
+*.db
+*.py[cod]
+.states
+.web
+__pycache__/
+assets/external/
+
+quotes_data.csv
