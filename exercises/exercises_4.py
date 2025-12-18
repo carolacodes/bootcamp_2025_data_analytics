@@ -201,3 +201,18 @@ Consignas:
 2. Cree una función con el nombre `add_points` que sume dos objetos de tipo `Point`,
     debe retornar un nuevo objeto Point, con la suma de las coordenadas x e y.
 """
+class Persona:
+    def __init__(self, first_name, last_name, age):
+        self.first_name = first_name
+        self.last_name = last_name
+        self.age = age
+
+    @property
+    def full_name(self):
+        return f"{self.first_name} {self.last_name}"
+
+    def greet(self):
+        print(f"Hola, mi nombre es {self.full_name} y tengo {self.age} años")
+
+def add_points(p1, p2):
+    return Point(p1.x + p2.x, p1.y + p2.y)

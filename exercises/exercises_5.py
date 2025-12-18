@@ -44,7 +44,7 @@ def numpy_ejercicio_1(arr: np.ndarray) -> float:
     Returns:
         float: La media de todos los elementos del array
     """
-    return 0.0
+    return float(np.mean(arr))
 
 
 def numpy_ejercicio_2(arr: np.ndarray) -> np.ndarray:
@@ -60,7 +60,7 @@ def numpy_ejercicio_2(arr: np.ndarray) -> np.ndarray:
     Returns:
         np.ndarray: Array con valores del 0 al 9
     """
-    return np.array([])
+    return np.arange(10)
 
 
 def numpy_ejercicio_3(arr: np.ndarray) -> tuple[int, int]:
@@ -76,7 +76,10 @@ def numpy_ejercicio_3(arr: np.ndarray) -> tuple[int, int]:
     Returns:
         tuple: Tupla con las dimensiones del array (filas, columnas)
     """
-    return (0, 0)
+    shape = arr.shape
+    if len(shape) == 1:
+        return (shape[0], 1)
+    return (shape[0], shape[1])
 
 
 def numpy_ejercicio_4(arr: np.ndarray) -> np.ndarray:
@@ -92,8 +95,7 @@ def numpy_ejercicio_4(arr: np.ndarray) -> np.ndarray:
     Returns:
         np.ndarray: Array filtrado con solo los valores mayores a 5
     """
-    return np.array([])
-
+    return arr[arr > 5]
 
 def numpy_ejercicio_5(arr1: np.ndarray, arr2: np.ndarray) -> np.ndarray:
     """
@@ -109,7 +111,7 @@ def numpy_ejercicio_5(arr1: np.ndarray, arr2: np.ndarray) -> np.ndarray:
     Returns:
         np.ndarray: Array resultante de la suma elemento a elemento
     """
-    return np.array([])
+    return arr1 + arr2
 
 
 def numpy_ejercicio_6(arr: np.ndarray) -> np.ndarray:
@@ -125,7 +127,7 @@ def numpy_ejercicio_6(arr: np.ndarray) -> np.ndarray:
     Returns:
         np.ndarray: Array reshapeado a matriz 2D (3 filas x 4 columnas)
     """
-    return np.array([])
+    return np.reshape(arr, (3, 4))
 
 
 def numpy_ejercicio_7(arr: np.ndarray) -> dict[str, float]:
@@ -142,7 +144,12 @@ def numpy_ejercicio_7(arr: np.ndarray) -> dict[str, float]:
     Returns:
         dict: Diccionario con las estadísticas calculadas
     """
-    return {}
+    return {
+        "media": float(np.mean(arr)),
+        "desviacion": float(np.std(arr)),
+        "minimo": float(np.min(arr)),
+        "maximo": float(np.max(arr)),
+    }
 
 
 # -----------------------------------------------------------------------------
@@ -160,7 +167,7 @@ def pandas_ejercicio_1() -> pd.DataFrame:
     Returns:
         pd.DataFrame: DataFrame con los datos del CSV
     """
-    return pd.DataFrame()
+    return pd.read_csv(DATASET_PATH)
 
 
 def pandas_ejercicio_2(df: pd.DataFrame) -> int:
@@ -176,7 +183,7 @@ def pandas_ejercicio_2(df: pd.DataFrame) -> int:
     Returns:
         int: Número de filas en el DataFrame
     """
-    return 0
+    return int(df.shape[0])
 
 
 def pandas_ejercicio_3(df: pd.DataFrame) -> pd.Series:
@@ -192,7 +199,7 @@ def pandas_ejercicio_3(df: pd.DataFrame) -> pd.Series:
     Returns:
         pd.Series: Serie con los valores de la columna 'producto'
     """
-    return pd.Series()
+    return df["producto"]
 
 
 def pandas_ejercicio_4(df: pd.DataFrame) -> pd.DataFrame:
@@ -208,7 +215,7 @@ def pandas_ejercicio_4(df: pd.DataFrame) -> pd.DataFrame:
     Returns:
         pd.DataFrame: DataFrame filtrado con solo las filas donde cantidad > 5
     """
-    return pd.DataFrame()
+    return df.loc[df["cantidad"] > 5]
 
 
 def pandas_ejercicio_5(df: pd.DataFrame) -> float:
@@ -223,7 +230,7 @@ def pandas_ejercicio_5(df: pd.DataFrame) -> float:
     Returns:
         float: Promedio de los valores en la columna 'total'
     """
-    return 0.0
+    return float(df["total"].mean())
 
 
 def pandas_ejercicio_6(df: pd.DataFrame) -> pd.DataFrame:
@@ -239,8 +246,7 @@ def pandas_ejercicio_6(df: pd.DataFrame) -> pd.DataFrame:
     Returns:
         pd.DataFrame: DataFrame con los resultados del groupby (categoria y suma de total)
     """
-    return pd.DataFrame()
-
+    return df.groupby("categoria")["total"].sum().reset_index()
 
 def pandas_ejercicio_7(df: pd.DataFrame) -> pd.DataFrame:
     """
@@ -255,7 +261,7 @@ def pandas_ejercicio_7(df: pd.DataFrame) -> pd.DataFrame:
     Returns:
         pd.DataFrame: DataFrame ordenado por 'total' de mayor a menor
     """
-    return pd.DataFrame()
+    return df.sort_values("total", ascending=False)
 
 
 # -----------------------------------------------------------------------------
@@ -274,7 +280,8 @@ def matplotlib_ejercicio_1(x: list[float], y: list[float]) -> None:
         x: Lista de valores para el eje X
         y: Lista de valores para el eje Y
     """
-    pass
+    plt.plot(x, y)
+    plt.show()
 
 
 def matplotlib_ejercicio_2(x: list[float], y: list[float]) -> None:
@@ -289,7 +296,11 @@ def matplotlib_ejercicio_2(x: list[float], y: list[float]) -> None:
         x: Lista de valores para el eje X
         y: Lista de valores para el eje Y
     """
-    pass
+    plt.plot(x, y)
+    plt.title("Gráfico de línea")
+    plt.xlabel("X")
+    plt.ylabel("Y")
+    plt.show()
 
 
 def matplotlib_ejercicio_3(values: list[float], labels: list[str]) -> None:
@@ -303,7 +314,8 @@ def matplotlib_ejercicio_3(values: list[float], labels: list[str]) -> None:
         values: Lista de valores para las barras
         labels: Lista de etiquetas para cada barra
     """
-    pass
+    plt.bar(labels, values)
+    plt.show()
 
 
 def matplotlib_ejercicio_4(values: list[float]) -> None:
@@ -316,7 +328,8 @@ def matplotlib_ejercicio_4(values: list[float]) -> None:
     Args:
         values: Lista de valores para el histograma
     """
-    pass
+    plt.hist(values)
+    plt.show()
 
 
 def matplotlib_ejercicio_5(x: list[float], y1: list[float], y2: list[float]) -> None:
@@ -331,7 +344,10 @@ def matplotlib_ejercicio_5(x: list[float], y1: list[float], y2: list[float]) -> 
         y1: Lista de valores para la primera línea
         y2: Lista de valores para la segunda línea
     """
-    pass
+    plt.plot(x, y1, label="línea 1")
+    plt.plot(x, y2, label="línea 2")
+    plt.legend()
+    plt.show()
 
 
 def matplotlib_ejercicio_6(df: pd.DataFrame) -> None:
@@ -345,7 +361,12 @@ def matplotlib_ejercicio_6(df: pd.DataFrame) -> None:
     Args:
         df: DataFrame de pandas con columnas 'categoria' y 'total'
     """
-    pass
+    grouped = df.groupby("categoria")["total"].sum()
+    plt.bar(grouped.index.tolist(), grouped.values.tolist())
+    plt.title("Total por categoría")
+    plt.xlabel("Categoría")
+    plt.ylabel("Total")
+    plt.show()
 
 
 def matplotlib_ejercicio_7(df: pd.DataFrame) -> None:
@@ -358,4 +379,8 @@ def matplotlib_ejercicio_7(df: pd.DataFrame) -> None:
     Args:
         df: DataFrame de pandas con columnas 'cantidad' y 'total'
     """
-    pass
+    plt.scatter(df["cantidad"], df["total"])
+    plt.title("Cantidad vs Total")
+    plt.xlabel("Cantidad")
+    plt.ylabel("Total")
+    plt.show()

@@ -144,12 +144,12 @@ assert condition1, error_message
 map = {"key1": "value1", "key2": "value2", "key3": "value3"}
 
 
-def lazy_map(key):
+# def lazy_map(key):
     # FIXME:
-    return map[key]  # This will raise a KeyError if the key does not exist
+#    return map[key]  # This will raise a KeyError if the key does not exist
 
 
-print(lazy_map("key1"))
+#print(lazy_map("key1"))
 
 # This will raise a KeyError
 # print(lazy_map("key4"))
@@ -178,3 +178,23 @@ Consignas:
         "prices_origin" con la lista de precios original.
 
 """
+def lazy_map(key):
+    return map.get(key, None)
+
+
+def get_first_element(lista):
+    return lista[0]
+
+
+def make_dict(keys, values):
+    return dict(zip(keys, values))
+
+
+def reset_price(data, index):
+    data["prices"][index] = 0
+
+
+def backup_prices(data):
+    backup = deepcopy(data)
+    backup["prices_origin"] = data["prices"]
+    return backup

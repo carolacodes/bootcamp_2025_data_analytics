@@ -23,7 +23,9 @@ def mas_ejercicios() -> Any:
     # si `valor` es menor a 10, y "mayor o igual a 10" en caso contrario.
     # Debe usar un `if` para resolverlo, sin usar `else`.
     def a(valor: int) -> str:
-        return ""
+        if(valor < 10): 
+            return "valor menor a 10"
+        return "valor mayor o igual a 10"
 
     yield a
 
@@ -31,7 +33,12 @@ def mas_ejercicios() -> Any:
     # entre `valor1` y `valor2`. Si los valores son iguales, debe devolver 0.
     # Debe usar al menos un `if` y un `else` para resolverlo.
     def b(valor1: int, valor2: int) -> int:
-        return 0
+        if valor1 > valor2:
+            return valor1
+        elif valor2 > valor1:
+            return valor2
+        else:
+            return 0
 
     yield b
 
@@ -54,7 +61,12 @@ def mas_ejercicios() -> Any:
     # a 10, 1 si `valor` es igual a 10 y 2 si `valor` es mayor a 10. Debe usar
     # un `if`, un `elif` y un `else` para resolverlo.
     def c(valor: int) -> int:
-        return 0
+        if(valor < 10):
+            return 0 
+        elif(valor == 10):
+            return 1
+        else:
+            return 2
 
     yield c
 
@@ -62,7 +74,10 @@ def mas_ejercicios() -> Any:
     # números enteros menores a `valor`. Debe usar un `for` con un range para
     # resolverlo.
     def d(valor: int) -> int:
-        return 0
+        total = 0 
+        for i in range(valor):
+            total += i
+        return total
 
     yield d
 
@@ -71,7 +86,15 @@ def mas_ejercicios() -> Any:
     # sume los números impares. Debe usar un `while` y un `if`combinado con la
     # palabra clave `continue` para resolverlo. (CUIDADO CON LOS BUCLES INFINITOS).
     def e(valor: int, solo_impares: bool) -> int:
-        return 0
+        total = 0
+        i = 0
+        while i < valor:
+            if solo_impares and i % 2 == 0:
+                i += 1
+                continue
+            total += i
+            i += 1
+        return total
 
     yield e
 
@@ -80,7 +103,14 @@ def mas_ejercicios() -> Any:
     # `valor` no está en el rango de 1 a 5, debe devolver "no encontrado". Debe usar
     # un diccionario para resolverlo.
     def f(valor: int) -> str:
-        return ""
+        numeros = {
+            1: "uno",
+            2: "dos",
+            3: "tres",
+            4: "cuatro",
+            5: "cinco"
+        }
+        return numeros.get(valor, "no encontrado")
 
     yield f
 
@@ -89,6 +119,10 @@ def mas_ejercicios() -> Any:
     # lo está, debe devolver "valor no soportado". Debe usar `match` en combinación
     # con la función `f` (del ejercicio anterior) para resolverlo.
     def g(valor: int) -> str:
-        return ""
+        match valor:
+            case 1 | 2 | 3 | 4 | 5:
+                return f(valor)
+            case _:
+                return "valor no soportado"
 
     yield g
